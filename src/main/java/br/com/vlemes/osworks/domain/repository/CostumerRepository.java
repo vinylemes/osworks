@@ -12,4 +12,6 @@ public interface CostumerRepository extends JpaRepository<Costumer, Long> {
     List<Costumer> findByName(String name);
 
     List<Costumer> findByNameContaining(String name);
+
+    Costumer findByEmail(String email);
 }
