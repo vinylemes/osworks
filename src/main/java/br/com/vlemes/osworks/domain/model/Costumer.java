@@ -1,10 +1,30 @@
 package br.com.vlemes.osworks.domain.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Objects;
+
+@Entity
 public class Costumer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank
+    @Size(max = 60)
     private String name;
+
+    @NotBlank
+    @Email
+    @Size(max = 255)
     private String email;
+
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "phone")
     private String phoneNumber;
 
     public long getId() {
@@ -37,5 +57,18 @@ public class Costumer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Costumer costumer = (Costumer) o;
+        return id == costumer.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
