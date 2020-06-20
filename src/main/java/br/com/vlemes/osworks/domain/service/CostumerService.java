@@ -25,7 +25,7 @@ public class CostumerService {
         return costumer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public Costumer save(Costumer costumer) {
+    public Costumer create(Costumer costumer) {
         Costumer existingCostumer = costumerRepository.findByEmail(costumer.getEmail());
 
         if (existingCostumer != null && !existingCostumer.equals(costumer)) {

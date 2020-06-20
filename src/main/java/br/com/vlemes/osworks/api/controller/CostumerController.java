@@ -30,7 +30,7 @@ public class CostumerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Costumer insert(@Valid @RequestBody Costumer costumer) {
-        return costumerService.save(costumer);
+        return costumerService.create(costumer);
     }
 
     @PutMapping("/{costumerId}")

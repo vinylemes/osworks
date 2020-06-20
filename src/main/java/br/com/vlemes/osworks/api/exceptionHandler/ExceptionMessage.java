@@ -12,6 +12,13 @@ public class ExceptionMessage {
     private String title;
     private ArrayList<FieldErrorMessage> fieldErrorMessages = new ArrayList<>();
 
+    public ExceptionMessage(Integer status, LocalDateTime dateTime, String title, ArrayList<FieldErrorMessage> fieldErrorMessages) {
+        this.status = status;
+        this.dateTime = dateTime;
+        this.title = title;
+        this.fieldErrorMessages = fieldErrorMessages;
+    }
+
     public Integer getStatus() {
         return status;
     }

@@ -26,13 +26,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<Object> handleDomain(DomainException exception, WebRequest request) {
-        var status = HttpStatus.BAD_REQUEST;
-        var exceptionMessage = new ExceptionMessage();
-        exceptionMessage.setStatus(status.value());
-        exceptionMessage.setTitle(exception.getMessage());
-        exceptionMessage.setDateTime(LocalDateTime.now());
-        exceptionMessage.setFieldErrorMessages(null);
 
+        var status = HttpStatus.BAD_REQUEST;
+        var exceptionMessage = new ExceptionMessage(status.value(),
+                LocalDateTime.now(),
+                exception.getMessage(),
+                null);
         return handleExceptionInternal(exception, exceptionMessage, new HttpHeaders(), status, request);
     }
 
@@ -41,7 +40,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
 
-
         var fieldErrorMessages = new ArrayList<FieldErrorMessage>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             String name = ((FieldError) error).getField();
@@ -49,13 +47,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             fieldErrorMessages.add(new FieldErrorMessage(name, message));
         }
 
-        ExceptionMessage exceptionMessage = new ExceptionMessage();
-        exceptionMessage.setStatus(status.value());
-        exceptionMessage.setTitle("Um ou mais campos estão inválidos, " +
-                "faça o preenchimento correto e tente novamente");
-        exceptionMessage.setDateTime(LocalDateTime.now());
-        exceptionMessage.setFieldErrorMessages(fieldErrorMessages);
+        ExceptionMessage exceptionMessage = new ExceptionMessage(status.value(),
+                LocalDateTime.now(),
+                "Um ou mais campos estão inválidos, faça o preenchimento correto e tente novamente",
+                fieldErrorMessages);
         return super.handleExceptionInternal(ex, exceptionMessage, headers, status, request);
-
     }
 }
