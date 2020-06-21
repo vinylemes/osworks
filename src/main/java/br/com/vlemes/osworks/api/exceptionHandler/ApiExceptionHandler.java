@@ -1,6 +1,7 @@
 package br.com.vlemes.osworks.api.exceptionHandler;
 
 import br.com.vlemes.osworks.domain.exception.DomainException;
+import br.com.vlemes.osworks.domain.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
@@ -29,6 +29,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleDomain(DomainException exception, WebRequest request) {
 
         var status = HttpStatus.BAD_REQUEST;
+        var exceptionMessage = new ExceptionMessage(status.value(),
+                OffsetDateTime.now(),
+                exception.getMessage(),
+                null);
+        return handleExceptionInternal(exception, exceptionMessage, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFound(DomainException exception, WebRequest request) {
+
+        var status = HttpStatus.NOT_FOUND;
         var exceptionMessage = new ExceptionMessage(status.value(),
                 OffsetDateTime.now(),
                 exception.getMessage(),

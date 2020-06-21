@@ -3,6 +3,7 @@ package br.com.vlemes.osworks.domain.service;
 import br.com.vlemes.osworks.api.model.ServiceOrderInput;
 import br.com.vlemes.osworks.api.model.ServiceOrderRepresentationModel;
 import br.com.vlemes.osworks.domain.exception.DomainException;
+import br.com.vlemes.osworks.domain.exception.EntityNotFoundException;
 import br.com.vlemes.osworks.domain.model.Costumer;
 import br.com.vlemes.osworks.domain.model.ServiceOrder;
 import br.com.vlemes.osworks.domain.model.ServiceOrderStatus;
@@ -53,6 +54,15 @@ public class ServiceOrderService {
             return ResponseEntity.ok(serviceOrderRepresentationModel);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public void close(Long serviceOrderId) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrderId)
+                .orElseThrow(() -> new EntityNotFoundException("Ordem de servio não encontrada"));
+
+        serviceOrder.close();
+
+        serviceOrderRepository.save(serviceOrder);
     }
 
     private ServiceOrderRepresentationModel toModel(ServiceOrder serviceOrder) {

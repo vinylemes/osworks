@@ -1,8 +1,13 @@
 package br.com.vlemes.osworks.domain.model;
 
+import br.com.vlemes.osworks.domain.exception.DomainException;
+import jdk.jshell.Snippet;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +27,9 @@ public class ServiceOrder {
 
     private OffsetDateTime openingDate;
     private OffsetDateTime closingDate;
+
+    @OneToMany(mappedBy = "serviceOrder")
+    private List<Comment> comments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -79,6 +87,14 @@ public class ServiceOrder {
         this.closingDate = closingDate;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,5 +106,17 @@ public class ServiceOrder {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public boolean canBeClosed(){
+        return ServiceOrderStatus.ABERTA.equals(getStatus());
+    }
+
+    public void close() {
+        if(!canBeClosed()){
+            throw new DomainException("Ordem de serviço não pode ser finalizada");
+        }
+        setStatus(ServiceOrderStatus.FINALIZADA);
+        setClosingDate(OffsetDateTime.now());
     }
 }

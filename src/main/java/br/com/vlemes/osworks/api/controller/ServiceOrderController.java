@@ -34,4 +34,10 @@ public class ServiceOrderController {
         return serviceOrderService.listById(serviceOrderId);
     }
 
+    @PutMapping("/{serviceOrderId}/closure")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void close(@PathVariable long serviceOrderId) {
+        serviceOrderService.close(serviceOrderId);
+    }
+
 }
