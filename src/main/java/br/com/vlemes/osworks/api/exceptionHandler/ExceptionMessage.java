@@ -3,16 +3,17 @@ package br.com.vlemes.osworks.api.exceptionHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExceptionMessage {
     private Integer status;
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
     private String title;
-    private ArrayList<FieldErrorMessage> fieldErrorMessages = new ArrayList<>();
+    private ArrayList<FieldErrorMessage> fieldErrorMessages;
 
-    public ExceptionMessage(Integer status, LocalDateTime dateTime, String title, ArrayList<FieldErrorMessage> fieldErrorMessages) {
+    public ExceptionMessage(Integer status, OffsetDateTime dateTime, String title, ArrayList<FieldErrorMessage> fieldErrorMessages) {
         this.status = status;
         this.dateTime = dateTime;
         this.title = title;
@@ -27,11 +28,11 @@ public class ExceptionMessage {
         this.status = status;
     }
 
-    public LocalDateTime getDateTime() {
+    public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
     }
 

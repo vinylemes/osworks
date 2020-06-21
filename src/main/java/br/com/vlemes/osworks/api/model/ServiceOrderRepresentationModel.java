@@ -1,25 +1,17 @@
-package br.com.vlemes.osworks.domain.model;
+package br.com.vlemes.osworks.api.model;
 
-import javax.persistence.*;
+import br.com.vlemes.osworks.domain.model.ServiceOrderStatus;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Objects;
 
-@Entity
-public class ServiceOrder {
+public class ServiceOrderRepresentationModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    private Costumer costumer;
+    private ResumeCostumerRepresentationModel costumer;
     private String description;
     private BigDecimal price;
-
-    @Enumerated(EnumType.STRING)
     private ServiceOrderStatus status;
-
     private OffsetDateTime openingDate;
     private OffsetDateTime closingDate;
 
@@ -31,11 +23,11 @@ public class ServiceOrder {
         this.id = id;
     }
 
-    public Costumer getCostumer() {
+    public ResumeCostumerRepresentationModel getCostumer() {
         return costumer;
     }
 
-    public void setCostumer(Costumer costumer) {
+    public void setCostumer(ResumeCostumerRepresentationModel costumer) {
         this.costumer = costumer;
     }
 
@@ -77,18 +69,5 @@ public class ServiceOrder {
 
     public void setClosingDate(OffsetDateTime closingDate) {
         this.closingDate = closingDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ServiceOrder that = (ServiceOrder) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
