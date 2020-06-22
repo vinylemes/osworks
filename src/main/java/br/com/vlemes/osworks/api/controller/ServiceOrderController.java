@@ -36,8 +36,14 @@ public class ServiceOrderController {
 
     @PutMapping("/{serviceOrderId}/closure")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void close(@PathVariable long serviceOrderId) {
+    public void close(@PathVariable Long serviceOrderId) {
         serviceOrderService.close(serviceOrderId);
+    }
+
+    @PutMapping("/{serviceOrderId}/cancellation")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancellation(@PathVariable Long serviceOrderId){
+        serviceOrderService.cancellation(serviceOrderId);
     }
 
 }

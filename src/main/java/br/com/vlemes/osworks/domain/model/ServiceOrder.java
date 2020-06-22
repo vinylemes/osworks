@@ -108,15 +108,23 @@ public class ServiceOrder {
         return Objects.hash(id);
     }
 
-    public boolean canBeClosed(){
+    public boolean canBeClosedOrCancelled() {
         return ServiceOrderStatus.ABERTA.equals(getStatus());
     }
 
     public void close() {
-        if(!canBeClosed()){
+        if (!canBeClosedOrCancelled()) {
             throw new DomainException("Ordem de serviço não pode ser finalizada");
         }
         setStatus(ServiceOrderStatus.FINALIZADA);
+        setClosingDate(OffsetDateTime.now());
+    }
+
+    public void cancellation() {
+        if (!canBeClosedOrCancelled()) {
+            throw new DomainException("Ordem de servio não pode ser cancelada");
+        }
+        setStatus(ServiceOrderStatus.CANCELADA);
         setClosingDate(OffsetDateTime.now());
     }
 }

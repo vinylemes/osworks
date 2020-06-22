@@ -57,12 +57,20 @@ public class ServiceOrderService {
     }
 
     public void close(Long serviceOrderId) {
-        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrderId)
-                .orElseThrow(() -> new EntityNotFoundException("Ordem de servio não encontrada"));
-
+        ServiceOrder serviceOrder = findServiceOrder(serviceOrderId);
         serviceOrder.close();
-
         serviceOrderRepository.save(serviceOrder);
+    }
+
+    public void cancellation(Long serviceOrderId) {
+        ServiceOrder serviceOrder = findServiceOrder(serviceOrderId);
+        serviceOrder.cancellation();
+        serviceOrderRepository.save(serviceOrder);
+    }
+
+    private ServiceOrder findServiceOrder(Long serviceOrderId){
+        return serviceOrderRepository.findById(serviceOrderId)
+                .orElseThrow(() -> new EntityNotFoundException("Ordem de servio não encontrada"));
     }
 
     private ServiceOrderRepresentationModel toModel(ServiceOrder serviceOrder) {
