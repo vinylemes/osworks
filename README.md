@@ -5,7 +5,7 @@
 ## :rocket: Projeto
 Controle de Clientes, ordens de serviço e comentários
 
-###Preview
+### Preview
 <p align="center">
   <img src="./.github/api.gif" />
 </p>
