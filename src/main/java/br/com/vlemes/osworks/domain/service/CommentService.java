@@ -27,8 +27,8 @@ public class CommentService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<CommentRepresentationModel> listAll(Long serviceOrdemId) {
-        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrdemId)
+    public List<CommentRepresentationModel> listAll(Long serviceOrderId) {
+        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrderId)
                 .orElseThrow(() -> new EntityNotFoundException("Ordem de serviço não encontrada"));
         return toCollectionModel(serviceOrder.getComments());
     }
@@ -51,7 +51,7 @@ public class CommentService {
 
     private List<CommentRepresentationModel> toCollectionModel(List<Comment> comments) {
         return comments.stream()
-                .map(this::toModel)
+                .map(comment -> toModel(comment))
                 .collect(Collectors.toList());
     }
 
