@@ -1,11 +1,11 @@
-create table comment(
-    id bigint not null auto_increment,
-    service_order_id bigint not null,
-    description text not null,
-    send_date datetime not null,
+CREATE TABLE IF NOT EXISTS comment(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    service_order_id BIGINT NOT NULL,
+    description TEXT NOT NULL,
+    send_date DATETIME NOT NULL,
 
-    primary key (id)
+    PRIMARY KEY (id)
 );
 
-alter table comment add constraint fk_comment_service_order
-foreign key (service_order_id) references service_order (id);
+ALTER TABLE comment ADD CONSTRAINT fk_comment_service_order
+FOREIGN KEY (service_order_id) REFERENCES service_order (id);

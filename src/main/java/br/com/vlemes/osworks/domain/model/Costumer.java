@@ -15,8 +15,6 @@ public class Costumer {
 
     private String name;
     private String email;
-
-    @Column(name = "phone")
     private String phoneNumber;
 
     public long getId() {
