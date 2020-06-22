@@ -1,6 +1,7 @@
 package br.com.vlemes.osworks.api.controller;
 
-import br.com.vlemes.osworks.domain.model.Costumer;
+import br.com.vlemes.osworks.api.model.CostumerInput;
+import br.com.vlemes.osworks.api.model.CostumerRepresentationModel;
 import br.com.vlemes.osworks.domain.service.CostumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,24 +19,25 @@ public class CostumerController {
     private CostumerService costumerService;
 
     @GetMapping
-    public List<Costumer> getAll() {
+    public List<CostumerRepresentationModel> getAll() {
         return costumerService.listAll();
     }
 
     @GetMapping("/{costumerId}")
-    public ResponseEntity<Costumer> getById(@PathVariable Long costumerId) {
+    public ResponseEntity<CostumerRepresentationModel> getById(@PathVariable Long costumerId) {
         return costumerService.listById(costumerId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Costumer insert(@Valid @RequestBody Costumer costumer) {
-        return costumerService.create(costumer);
+    public CostumerRepresentationModel insert(@Valid @RequestBody CostumerInput costumerInput) {
+        return costumerService.create(costumerInput);
     }
 
     @PutMapping("/{costumerId}")
-    public ResponseEntity<Costumer> update(@Valid @PathVariable Long costumerId, @RequestBody Costumer costumer) {
-        return costumerService.update(costumerId, costumer);
+    public ResponseEntity<CostumerRepresentationModel> update(@Valid @PathVariable Long costumerId,
+                                                              @RequestBody CostumerInput costumerInput) {
+        return costumerService.update(costumerId, costumerInput);
     }
 
     @DeleteMapping("/{costumerId}")

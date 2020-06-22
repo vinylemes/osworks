@@ -13,17 +13,9 @@ public class Costumer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank
-    @Size(max = 60)
     private String name;
-
-    @NotBlank
-    @Email
-    @Size(max = 255)
     private String email;
 
-    @NotBlank
-    @Size(max = 20)
     @Column(name = "phone")
     private String phoneNumber;
 

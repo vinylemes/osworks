@@ -31,18 +31,6 @@ public class ServiceOrderService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ServiceOrderRepresentationModel create(ServiceOrderInput serviceOrderInput) {
-        ServiceOrder serviceOrder = toEntity(serviceOrderInput);
-        Costumer costumer = costumerRepository.findById(serviceOrder.getCostumer().getId())
-                .orElseThrow(() -> new DomainException("Cliente não encontrado"));
-
-        serviceOrder.setCostumer(costumer);
-        serviceOrder.setStatus(ServiceOrderStatus.ABERTA);
-        serviceOrder.setOpeningDate(OffsetDateTime.now());
-        return toModel(serviceOrderRepository.save(serviceOrder));
-
-    }
-
     public List<ServiceOrderRepresentationModel> listAll() {
         return toCollectionModel(serviceOrderRepository.findAll());
     }
@@ -54,6 +42,18 @@ public class ServiceOrderService {
             return ResponseEntity.ok(serviceOrderRepresentationModel);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ServiceOrderRepresentationModel create(ServiceOrderInput serviceOrderInput) {
+        ServiceOrder serviceOrder = toEntity(serviceOrderInput);
+        Costumer costumer = costumerRepository.findById(serviceOrder.getCostumer().getId())
+                .orElseThrow(() -> new DomainException("Cliente não encontrado"));
+
+        serviceOrder.setCostumer(costumer);
+        serviceOrder.setStatus(ServiceOrderStatus.ABERTA);
+        serviceOrder.setOpeningDate(OffsetDateTime.now());
+        return toModel(serviceOrderRepository.save(serviceOrder));
+
     }
 
     public void close(Long serviceOrderId) {
@@ -68,7 +68,7 @@ public class ServiceOrderService {
         serviceOrderRepository.save(serviceOrder);
     }
 
-    private ServiceOrder findServiceOrder(Long serviceOrderId){
+    private ServiceOrder findServiceOrder(Long serviceOrderId) {
         return serviceOrderRepository.findById(serviceOrderId)
                 .orElseThrow(() -> new EntityNotFoundException("Ordem de servio não encontrada"));
     }
